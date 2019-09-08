@@ -18,6 +18,8 @@ var isRight;
 var isPlummeting;
 var isFalling;
 
+var collectable;
+
 
 function setup()
 {
@@ -30,6 +32,9 @@ function setup()
     isRight = false;
     isPlummeting = false;
     isFalling = false;
+    
+    collectables = {pos_x: width/4, pos_y: floorPos_y - 40, size: 50,
+                   isFound: false};
 }
 
 function draw()
@@ -43,11 +48,33 @@ function draw()
 	noStroke();
 	fill(0,155,0);
 	rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
-
+    
 	//draw the canyons
     fill(101,67,33);
     rect(width/4, floorPos_y, 100, height - floorPos_y);
     rect(width/1.7, floorPos_y, 100, height - floorPos_y);
+    
+    //**********************collectable*************************
+    if(dist(gameChar_x, gameChar_y, collectables.pos_x, collectables.pos_y)<41)
+    {
+        collectables.isFound = true;
+    }
+    if(collectables.isFound == false)
+    {
+            //ruby
+        fill(240,0,0);
+        quad(collectables.pos_x-10, collectables.pos_y,
+             collectables.pos_x, collectables.pos_y -collectables.size/2,
+             collectables.pos_x+10, collectables.pos_y,
+             collectables.pos_x, collectables.pos_y +collectables.size/2);
+        //shiny center circle
+        fill(218,225,19,240);
+        ellipse(collectables.pos_x,collectables.pos_y,collectables.size/3);
+        
+    }
+
+    
+    stroke(0);
 	//the game character
 	if(isLeft && isFalling)
 	{
